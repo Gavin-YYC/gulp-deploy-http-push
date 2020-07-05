@@ -12,9 +12,11 @@ import { Restrictor } from './restrictor';
 import stream = require('readable-stream');
 const Transform = stream.Transform;
 
-export function httpPush (options: IDeployOption[]) {
+export function httpPush (options: IDeployOption[], deployEndCallback: (() => void) | undefined) {
     console.log('[gulp-deploy-http-push] httpPush() is deprecated, use push() instead');
-    const restrictor = new Restrictor();
+    const restrictor = new Restrictor({
+        deployEndCallback
+    });
     const cachePath = options[0].cachePath ? options[0].cachePath : defaultCachePath;
     mkdirsSync(cachePath);
     return new Transform({

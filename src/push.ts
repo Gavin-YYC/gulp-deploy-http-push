@@ -3,8 +3,10 @@ import { Transform } from 'readable-stream';
 import { defaultCachePath, hasCache, mkdirsSync } from './cache';
 import { include } from './filter';
 import { Restrictor } from './restrictor';
-export function push (options: PushOptions) {
-    const restrictor = new Restrictor();
+export function push (options: PushOptions, deployEndCallback: (() => void) | undefined) {
+    const restrictor = new Restrictor({
+        deployEndCallback
+    });
     const cachePath = options.cachePath ? options.cachePath : defaultCachePath;
     mkdirsSync(cachePath);
     return new Transform({
